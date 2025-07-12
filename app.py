@@ -5,10 +5,10 @@ import subprocess
 if not os.path.exists("/home/appuser/.cache/ms-playwright"):
     subprocess.run(["playwright", "install", "chromium"], check=True)
 
-import streamlit as st
-import pandas as pd
+import streamlit as st # type: ignore
+import pandas as pd # type: ignore
 import asyncio
-from playwright.async_api import async_playwright
+from playwright.async_api import async_playwright # type: ignore
 import tempfile
 
 st.set_page_config(page_title="Image Scraper", layout="centered")
@@ -26,7 +26,7 @@ async def scrape_images(urls):
     results = []
 
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
+        browser = await p.chromium.launch(headless=True, args=["--no-sandbox"])
         page = await browser.new_page()
 
         for url in urls:
